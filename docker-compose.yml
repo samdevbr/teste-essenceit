@@ -1,0 +1,20 @@
+version: '3'
+services:
+  mysql:
+    image: mysql:5.7
+    environment:
+      - MYSQL_ROOT_PASSWORD=${MYSQL_ROOT_PASSWORD}
+    volumes:
+      - ~/.mysql/data/db:/var/lib/mysql
+    restart: always
+    ports:
+      - ${MYSQL_PORT}:3306
+  php:
+    # build:
+      # context: ./php
+      # args:
+        # - PHP_SERVER_HOST=${PHP_SERVER_HOST}
+        # - PHP_SERVER_PORT=${PHP_SERVER_PORT}
+    image: php:7.3.16
+    links:
+      - mysql
