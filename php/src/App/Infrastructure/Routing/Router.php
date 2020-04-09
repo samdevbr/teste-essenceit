@@ -46,7 +46,6 @@ class Router
 
 			array_shift($matches);
 
-			$args = [];
 			for ($i = 0; $i < count($matches); $i++) {
 				$value = $matches[$i][0];
 				$key = $route->params[$i];
