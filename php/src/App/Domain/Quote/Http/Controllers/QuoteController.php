@@ -3,8 +3,9 @@ namespace App\Domain\Quote\Http\Controllers;
 
 class QuoteController
 {
-	public function getQuote()
+	public function getQuote(string $from, string $to)
 	{
-		echo "hello from quote controller";
+		var_dump($from);
+		var_dump($to);
 	}
 }
