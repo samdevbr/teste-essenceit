@@ -2,9 +2,8 @@
 namespace App\Domain\Quote\Http\Controllers;
 
 use App\Infrastructure\Http\Controller;
-use App\Infrastructure\Http\Request;
-use App\Infrastructure\Validation\Rules\IsNumeric;
 use App\Infrastructure\Validation\Rules\Required;
+use App\Infrastructure\Validation\Rules\IsNumeric;
 
 class RouteController extends Controller
 {

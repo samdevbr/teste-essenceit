@@ -15,14 +15,14 @@ class Route
 
 	public $uriRegex;
 
-	private const PARAM_REGEX = '/\:([a-z]{0,})/i';
+	private const PARAM_REGEX = '/\:([a-z0-9]{0,})/i';
 	private const CALLBACK_REGEX = '/((.{1,})\@([a-z]{1,}))/i';
 
 	public function __construct($method, $uri, $callback)
 	{
 		$this->method   = $method;
 		$this->uri      = $uri;
-		$this->uriRegex      = $uri;
+		$this->uriRegex = $uri;
 		$this->callback = $callback;
 
 		$this->compileRoute();
@@ -64,7 +64,7 @@ class Route
 	{
 		[$uri,] = explode('?', $uri);
 
-		return preg_match($this->uriRegex, $uri);
+		return (bool)preg_match($this->uriRegex, $uri);
 	}
 
 	public function resolveClass()
