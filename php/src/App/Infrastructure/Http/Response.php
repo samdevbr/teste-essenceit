@@ -5,6 +5,7 @@ class Response
 {
 	const HTTP_OK = 200;
 	const HTTP_NOT_FOUND = 404;
+	const HTTP_UNPROCESSABLE_ENTITY = 422;
 
 	public static function json(int $code, array $body = [])
 	{
