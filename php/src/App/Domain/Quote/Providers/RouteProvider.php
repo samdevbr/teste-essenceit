@@ -12,6 +12,7 @@ class RouteProvider implements IProvider
 	public function register()
 	{
 		Route::get('/quote/:from/:to', $this->namespace . 'QuoteController@getQuote');
+		Route::get('/route', $this->namespace . 'RouteController@all');
 		Route::post('/route', $this->namespace . 'RouteController@store');
 	}
 }
