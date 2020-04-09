@@ -62,6 +62,8 @@ class Route
 
 	public function matches(string $uri)
 	{
+		[$uri,] = explode('?', $uri);
+
 		return preg_match($this->uriRegex, $uri);
 	}
 

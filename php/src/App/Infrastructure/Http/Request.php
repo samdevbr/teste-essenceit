@@ -5,12 +5,14 @@ class Request
 {
 	private $get;
 	private $post;
+	private $body;
 	private $params = [];
 
 	public function __construct()
 	{
 		$this->get  = &$_GET;
 		$this->post = &$_POST;
+		$this->body = json_decode(file_get_contents('php://input'), true);
 	}
 
 	public static function capture(): Request
@@ -33,9 +35,9 @@ class Request
 		return $this->get[$key] ?? null;
 	}
 
-	public function input(string $key)
+	public function input(string $key, $default = null)
 	{
-		return $this->post[$key] ?? null;
+		return $this->post[$key] ?? $this->query($key) ?? $this->body[$key] ?? $default;
 	}
 
 	public function addParam($key, $value)
