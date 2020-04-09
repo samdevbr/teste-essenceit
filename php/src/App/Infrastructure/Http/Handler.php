@@ -18,9 +18,15 @@ class Handler
 
 	public function handle()
 	{
-		$this->router->tryRoute(
-			$this->request->method(),
-			$this->request->uri()
+		$route = $this->router->tryRoute(
+			$this->request
 		);
+
+		if (!$route) {
+			die("Cannot {$this->request->method()} {$this->request->uri()}");
+		}
+
+		$class = $route->resolveClass();
+		$class->{$route->classMethod}(...$this->request->getParams());
 	}
 }

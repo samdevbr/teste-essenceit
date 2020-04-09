@@ -37,11 +37,11 @@ class Route
 		$this->params = $paramNames;
 
 		foreach ($this->params as $param) {
-			$this->uriRegex = str_ireplace(':' . $param, '(.*)', $this->uriRegex);
+			$this->uriRegex = str_ireplace(':' . $param, '([a-z0-9]{1,})', $this->uriRegex);
 		}
 
 		$this->uriRegex = str_replace("/", "\/", $this->uriRegex);
-		$this->uriRegex = "/{$this->uriRegex}/";
+		$this->uriRegex = "/^{$this->uriRegex}$/i";
 	}
 
 	private function compileCallback()
@@ -63,6 +63,11 @@ class Route
 	public function matches(string $uri)
 	{
 		return preg_match($this->uriRegex, $uri);
+	}
+
+	public function resolveClass()
+	{
+		return new $this->className;
 	}
 
 	public static function get(string $uri, $callback)

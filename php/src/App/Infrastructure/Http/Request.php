@@ -5,6 +5,7 @@ class Request
 {
 	private $get;
 	private $post;
+	private $params = [];
 
 	public function __construct()
 	{
@@ -35,5 +36,20 @@ class Request
 	public function input(string $key)
 	{
 		return $this->post[$key] ?? null;
+	}
+
+	public function addParam($key, $value)
+	{
+		$this->params[$key] = $value;
+	}
+
+	public function param($key, $default = null)
+	{
+		return $this->params[$key] ?? $default;
+	}
+
+	public function getParams()
+	{
+		return array_values($this->params);
 	}
 }
