@@ -75,6 +75,7 @@ class QuoteServiceTest extends TestCase
 
 		$this->assertEquals($cheapestRoute['path'], $result['cheapest_route']['path']);
 		$this->assertEquals($cheapestRoute['price'], $result['cheapest_route']['price']);
+		$this->assertNotEmpty($result['general_routes']);
 	}
 
 	public function testCanFindCheapestMultipleConnections()
@@ -91,5 +92,17 @@ class QuoteServiceTest extends TestCase
 
 		$this->assertEquals($cheapestRoute['path'], $result['cheapest_route']['path']);
 		$this->assertEquals($cheapestRoute['price'], $result['cheapest_route']['price']);
+		$this->assertNotEmpty($result['general_routes']);
+	}
+
+	public function testReturnEmptyWhenNoRouteFound()
+	{
+		$from = "GRU";
+		$to = "BBC";
+
+		$result = $this->quoteService->findRoutes($this->routes, $from, $to);
+
+		$this->assertEmpty($result['cheapest_route']);
+		$this->assertEmpty($result['general_routes']);
 	}
 }
