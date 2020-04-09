@@ -23,10 +23,12 @@ class Handler
 		);
 
 		if (!$route) {
-			die("Cannot {$this->request->method()} {$this->request->uri()}");
+			Response::json(Response::HTTP_NOT_FOUND, [
+				'error' => 'Route not found'
+			]);
+		} else {
+			$class = $route->resolveClass();
+			$class->{$route->classMethod}(...$this->request->getParams());
 		}
-
-		$class = $route->resolveClass();
-		$class->{$route->classMethod}(...$this->request->getParams());
 	}
 }
