@@ -1,11 +1,15 @@
 <?php
 namespace App\Domain\Quote\Http\Controllers;
 
-class QuoteController
+use App\Infrastructure\Http\Controller;
+
+class QuoteController extends Controller
 {
 	public function getQuote(string $from, string $to)
 	{
-		var_dump($from);
-		var_dump($to);
+		$this->json([[
+			"from" => $from,
+			"to" => $to
+		]]);
 	}
 }
