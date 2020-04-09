@@ -4,51 +4,53 @@ namespace App\Domain\Quote\Tests\Services;
 
 use App\Infrastructure\Tests\TestCase;
 use App\Domain\Quote\Services\QuoteService;
+use App\Domain\Quote\Services\RouteService;
 
 class QuoteServiceTest extends TestCase
 {
 	private $routes = [
 		[
-			"from" => "GRU",
-			"to" => "BRC",
+			"takeoff" => "GRU",
+			"land" => "BRC",
 			"price" => 10
 		],
 		[
-			"from" => "GRU",
-			"to" => "SCL",
+			"takeoff" => "GRU",
+			"land" => "SCL",
 			"price" => 18
 		],
 		[
-			"from" => "GRU",
-			"to" => "ORL",
+			"takeoff" => "GRU",
+			"land" => "ORL",
 			"price" => 56
 		],
 		[
-			"from" => "GRU",
-			"to" => "CDG",
+			"takeoff" => "GRU",
+			"land" => "CDG",
 			"price" => 75
 		],
 		[
-			"from" => "SCL",
-			"to" => "ORL",
+			"takeoff" => "SCL",
+			"land" => "ORL",
 			"price" => 20
 		],
 		[
-			"from" => "BRC",
-			"to" => "SCL",
+			"takeoff" => "BRC",
+			"land" => "SCL",
 			"price" => 5
 		],
 		[
-			"from" => "ORL",
-			"to" => "CDG",
+			"takeoff" => "ORL",
+			"land" => "CDG",
 			"price" => 5
 		],
 		[
-			"from" => "BBC",
-			"to" => "BBD",
+			"takeoff" => "BBC",
+			"land" => "BBD",
 			"price" => 0
 		]
 	];
+
 	/**
 	 * @var QuoteService $quoteService
 	 */
@@ -58,20 +60,23 @@ class QuoteServiceTest extends TestCase
 	{
 		parent::setUp();
 
-		$this->quoteService = new QuoteService;
+		$routeService = $this->createMock(RouteService::class);
+		$routeService->method('getAll')->willReturn($this->routes);
+
+		$this->quoteService = new QuoteService($routeService);
 	}
 
 	public function testCanFindCheapest()
 	{
-		$from = "GRU";
-		$to = "SCL";
+		$takeoff = "GRU";
+		$land = "SCL";
 
 		$cheapestRoute = [
 			'path' => 'GRU,BRC,SCL',
 			'price' => 15
 		];
 
-		$result = $this->quoteService->findRoutes($this->routes, $from, $to);
+		$result = $this->quoteService->findRoutes($takeoff, $land);
 
 		$this->assertEquals($cheapestRoute['path'], $result['cheapest_route']['path']);
 		$this->assertEquals($cheapestRoute['price'], $result['cheapest_route']['price']);
@@ -80,15 +85,15 @@ class QuoteServiceTest extends TestCase
 
 	public function testCanFindCheapestMultipleConnections()
 	{
-		$from = "GRU";
-		$to = "ORL";
+		$takeoff = "GRU";
+		$land = "ORL";
 
 		$cheapestRoute = [
 			'path' => 'GRU,BRC,SCL,ORL',
 			'price' => 35
 		];
 
-		$result = $this->quoteService->findRoutes($this->routes, $from, $to);
+		$result = $this->quoteService->findRoutes($takeoff, $land);
 
 		$this->assertEquals($cheapestRoute['path'], $result['cheapest_route']['path']);
 		$this->assertEquals($cheapestRoute['price'], $result['cheapest_route']['price']);
@@ -97,10 +102,10 @@ class QuoteServiceTest extends TestCase
 
 	public function testReturnEmptyWhenNoRouteFound()
 	{
-		$from = "GRU";
-		$to = "BBC";
+		$takeoff = "GRU";
+		$land = "BBC";
 
-		$result = $this->quoteService->findRoutes($this->routes, $from, $to);
+		$result = $this->quoteService->findRoutes($takeoff, $land);
 
 		$this->assertEmpty($result['cheapest_route']);
 		$this->assertEmpty($result['general_routes']);

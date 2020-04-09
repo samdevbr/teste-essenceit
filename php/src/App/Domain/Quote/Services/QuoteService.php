@@ -4,13 +4,23 @@ namespace App\Domain\Quote\Services;
 
 class QuoteService
 {
-	private function buildRoutingTree($routes, $from)
+	/**
+	 * @var RouteService $routeService
+	 */
+	private $routeService;
+
+	public function __construct(RouteService $routeService)
+	{
+		$this->routeService = $routeService;
+	}
+
+	private function buildRoutingTree($routes, $takeoff)
 	{
 		$tree = [];
 
 		foreach ($routes as $route) {
-			if ($route["from"] === $from) {
-				$connections = $this->buildRoutingTree($routes, $route["to"]);
+			if ($route["takeoff"] === $takeoff) {
+				$connections = $this->buildRoutingTree($routes, $route["land"]);
 
 				if ($connections) {
 					$route['connections'] = $connections;
@@ -26,8 +36,8 @@ class QuoteService
 	private function popConnections($connection, array &$out)
 	{
 		$out[] = [
-			'from' => $connection['from'],
-			'to' => $connection['to'],
+			'takeoff' => $connection['takeoff'],
+			'land' => $connection['land'],
 			'price' => $connection['price'],
 		];
 
@@ -38,10 +48,10 @@ class QuoteService
 		}
 	}
 
-	private function findPath(array $connections, $to)
+	private function findPath(array $connections, $land)
 	{
 		$path = [
-			$connections["from"]
+			$connections["takeoff"]
 		];
 		$price = $connections["price"];
 		$found = false;
@@ -52,16 +62,16 @@ class QuoteService
 			$this->popConnections($connection, $flattedConnections);
 
 			foreach ($flattedConnections as $flattedConnection) {
-				if ($flattedConnection['to'] !== $to) {
-					$path[] = $flattedConnection["from"];
+				if ($flattedConnection['land'] !== $land) {
+					$path[] = $flattedConnection["takeoff"];
 					$price += $flattedConnection["price"];
 
 					continue;
 				}
 
 				$found = true;
-				$path[] = $flattedConnection["from"];
-				$path[] = $flattedConnection["to"];
+				$path[] = $flattedConnection["takeoff"];
+				$path[] = $flattedConnection["land"];
 				$price += $flattedConnection["price"];
 				break;
 			}
@@ -86,16 +96,17 @@ class QuoteService
 		return array_shift($routes);
 	}
 
-	public function findRoutes($routes, $from, $to): array
+	public function findRoutes($takeoff, $land): array
 	{
-		$tree = $this->buildRoutingTree($routes, $from);
+		$routes = $this->routeService->getAll();
+		$tree = $this->buildRoutingTree($routes, $takeoff);
 
 		$validRoutes = [];
 
 		foreach ($tree as $branch) {
-			if ($branch['from'] === $from && $branch['to'] === $to) {
+			if ($branch['takeoff'] === $takeoff && $branch['land'] === $land) {
 				$validRoutes[] = [
-					"path" => "$from,$to",
+					"path" => "$takeoff,$land",
 					"price" => $branch['price']
 				];
 			}
@@ -104,7 +115,7 @@ class QuoteService
 				continue;
 			}
 
-			$path = $this->findPath($branch, $to);
+			$path = $this->findPath($branch, $land);
 
 			if ($path) {
 				$validRoutes[] = [
