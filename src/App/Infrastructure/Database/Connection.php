@@ -10,7 +10,12 @@ class Connection
 
 	public function __construct()
 	{
-		$this->conn = new PDO("mysql:host=127.0.0.1;dbname=essenceit", "root", "root");
+		$host = getenv('DB_HOST');
+		$dbname = getenv('DB_NAME');
+		$user = getenv('DB_USER');
+		$pass = getenv('DB_PASS');
+
+		$this->conn = new PDO("mysql:host=$host;dbname=$dbname", $user, $pass);
 	}
 
 	public function exec($query, array $args = [])

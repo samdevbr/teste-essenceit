@@ -1,8 +1,8 @@
 echo "======================================="
 echo "[Infrastructure]\n"
 
-./vendor/bin/phpunit --colors App/Infrastructure/Tests
+./src/vendor/bin/phpunit --colors src/App/Infrastructure/Tests
 
 echo "======================================="
 echo "[Quote Domain]\n"
-./vendor/bin/phpunit --colors App/Domain/Quote/Tests
+./src/vendor/bin/phpunit --colors src/App/Domain/Quote/Tests
