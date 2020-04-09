@@ -16,26 +16,30 @@ In order to run this project, you'll need:
 
 After your environment has been configured, we need setup the database, and tables, to do so follow below steps.
 
-1. `cd teste-essenceit`
+1. `cd /path/to/teste-essenceit`
 2. `cd mysql/scripts`
-3. `mysql -h $HOST -u $USER -p $PWD < db.sql`
+3. `mysql -h$HOST -u$USER -p$PWD < db.sql`
 
 ## Configuring The Project
 
 After your database has been configured, we should setup our database settings, and install the dependecies, to do so follow below steps.
 
-1. `cd teste-essenceit`
+1. `cd /path/to/teste-essenceit`
 2. `cd src`
 5. `vi .env`
 3. `composer install`
 
 >Change the settings as needed, save and close the file.
 
+## Running Unit Tests
+
+Just run, `./path/to/teste-essenceit/run-tests.sh`
+
 ## Running The Project
 
-In order to run this project ollow below steps.
+In order to run this project follow below steps.
 
-1. `php -S localhost:3000 -t teste-essenceit/src/Public`
+1. `php -S localhost:3000 -t /path/to/teste-essenceit/src/Public`
 
 ## Done!
 Now that you've configured your environement and the project, it should be working at http://localhost:3000
