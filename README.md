@@ -8,8 +8,9 @@ Teste técnico EssenceIT
 In order to run this project, you'll need:
 
 1. PHP 7.2+
-2. MySQL 5.7
-3. Composer
+2. PHP pdo, mysql, mstring and dom/xml extensions
+3. MySQL 5.7
+4. Composer
 
 ## Configuring The Database
 
