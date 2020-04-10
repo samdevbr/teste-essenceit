@@ -1,1 +1,1 @@
-docker-compose exec mysql ./mysql/scripts/migrate.sh
+docker-compose exec mysql sh /mysql/scripts/migrate.sh
