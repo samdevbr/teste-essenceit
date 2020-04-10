@@ -1,10 +1,10 @@
 docker-compose up -d app
 
 echo "======================================="
-echo "[Infrastructure]\n"
+echo "[Infrastructure]"
 
-docker-compose exec app "./app/vendor/bin/phpunit --colors src/App/Infrastructure/Tests"
+docker-compose exec app ./vendor/bin/phpunit --colors App/Infrastructure/Tests
 
 echo "======================================="
-echo "[Quote Domain]\n"
-docker-compose exec app "./app/vendor/bin/phpunit --colors src/App/Domain/Quote/Tests"
+echo "[Quote Domain]"
+docker-compose exec app ./vendor/bin/phpunit --colors App/Domain/Quote/Tests
