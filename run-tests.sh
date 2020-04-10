@@ -1,8 +1,10 @@
-echo "======================================="
-echo "[Infrastructure]\n"
-
-./src/vendor/bin/phpunit --colors src/App/Infrastructure/Tests
+docker-compose up -d app
 
 echo "======================================="
-echo "[Quote Domain]\n"
-./src/vendor/bin/phpunit --colors src/App/Domain/Quote/Tests
+echo "[Infrastructure]"
+
+docker-compose exec app ./vendor/bin/phpunit --colors App/Infrastructure/Tests
+
+echo "======================================="
+echo "[Quote Domain]"
+docker-compose exec app ./vendor/bin/phpunit --colors App/Domain/Quote/Tests
