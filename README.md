@@ -18,8 +18,6 @@ After your docker has been configured, we should setup our database, and install
 2. `./install.sh`
 3. `./migrate.sh`
 
->Change the settings as needed, save and close the file.
-
 ## Running Unit Tests
 
 Just run, `./path/to/teste-essenceit/run-tests.sh`
