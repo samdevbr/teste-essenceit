@@ -1,1 +1,1 @@
-docker-compose exec mysql mysql -uroot -proot < /mysql/scripts/db.sql
+docker-compose exec mysql ./mysql/scripts/migrate.sh
