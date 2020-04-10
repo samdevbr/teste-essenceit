@@ -21,4 +21,3 @@ ALTER TABLE `essenceit`.`routes`
   ADD UNIQUE KEY `route_unique` (`takeoff`,`land`);
 ALTER TABLE `essenceit`.`routes`
   MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
-COMMIT;

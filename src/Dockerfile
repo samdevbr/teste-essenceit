@@ -4,7 +4,8 @@ COPY . /app
 
 WORKDIR /app
 
-RUN composer install
+RUN cd /app && \
+    composer install
 
 EXPOSE 3000
 

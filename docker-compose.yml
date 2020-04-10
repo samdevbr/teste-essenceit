@@ -9,6 +9,7 @@ services:
       - "3306/tcp"
     volumes:
       - ~/.essenceit/mysql:/var/lib/mysql
+      - mysql/scripts:/mysql/scripts
   app:
     build: ./src
     ports:
