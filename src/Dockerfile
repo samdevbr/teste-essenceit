@@ -1,7 +1,5 @@
 FROM prooph/composer:7.3
 
-COPY . /app
-
 WORKDIR /app
 
 EXPOSE 3000
